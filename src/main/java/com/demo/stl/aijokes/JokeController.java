@@ -34,26 +34,9 @@ public class JokeController {
         this.promptTemplate = promptTemplate;
     }
 
-    @GetMapping("/joke")
-    public JokeResponse tellJoke(@RequestParam ("subject") String subject){
-        logger.info("tellJoke");
-        logger.info("promptTemplate: " + promptTemplate);
-        BeanOutputParser<JokeResponse> parser = new BeanOutputParser<>(JokeResponse.class);
-        String format = parser.getFormat();
-        PromptTemplate pt = new PromptTemplate(promptTemplate);
-        String renderedPrompt = pt.render(Map.of("subject",subject, "format", format));
-        try{
-            logger.info(renderedPrompt);
-            return parser.parse(chatClient.call(renderedPrompt));
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return new JokeResponse("error", "no joke today");
-        }
-    }
 
-    @GetMapping("/joke2")
-    public JokeResponse tellJoke2 (@RequestParam ("subject") String subject){
-        logger.info("tellJoke2");
+    @GetMapping("/joke")
+    public JokeResponse tellJoke (@RequestParam ("subject") String subject){
         logger.info("promptTemplate: " + promptTemplate);
         BeanOutputParser<JokeResponse> parser = new BeanOutputParser<>(JokeResponse.class);
         String format = parser.getFormat();
